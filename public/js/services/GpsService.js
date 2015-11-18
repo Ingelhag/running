@@ -8,7 +8,7 @@ angular.module('GpsService', []).factory('Gps', ['$http', function($http) {
 
         // call to POST and create a new nerd
         create : function(data) {
-            return $http.post('/api/gps/', data);
+            return $http.post('/api/gps', data);
         },
 
         // call to DELETE a nerd

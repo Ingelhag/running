@@ -10,7 +10,7 @@ module.exports = function(app) {
     app.get('/api/gps', function(req, res) {
     	console.log("Get GPS data");
         // use mongoose to get all nerds in the database
-        Data.find(function(err, data) {
+        Gps.find(function(err, data) {
 
             if (err)
                 res.send(err);
@@ -19,9 +19,9 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/api/gps/add', function(req,res) {
+    app.post('/api/gps', function(req,res) {
     	console.log("Add GPS data");
-    	var newGPS = new Data();
+    	var newGPS = new Gps();
     	newGPS.lon = req.query.lon;
     	newGPS.lat = req.query.lat;
 
