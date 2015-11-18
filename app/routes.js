@@ -19,7 +19,7 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/api/gps', function(req,res) {
+    app.get('/api/add/gps', function(req,res) {
     	console.log("Add GPS data");
     	var newGPS = new Gps();
     	newGPS.lon = req.query.lon;
