@@ -1,4 +1,4 @@
-var Data = require('./models/Data');
+var Gps = require('./models/Gps');
 
 module.exports = function(app) {
 
@@ -7,8 +7,8 @@ module.exports = function(app) {
     // authentication routes
 
     // sample api route
-    app.get('/api/data', function(req, res) {
-    	console.log("HELLO");
+    app.get('/api/gps', function(req, res) {
+    	console.log("Get GPS data");
         // use mongoose to get all nerds in the database
         Data.find(function(err, data) {
 
@@ -19,15 +19,16 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/api/data', function(req,res) {
-    	var newData = new Data();
-    	newData.lon = req.query.lon;
-    	newData.lat = req.query.lat;
+    app.post('/api/gps/add', function(req,res) {
+    	console.log("Add GPS data");
+    	var newGPS = new Data();
+    	newGPS.lon = req.query.lon;
+    	newGPS.lat = req.query.lat;
 
-		newData.save(function(err, post){
+		newGPS.save(function(err, data){
 			if(err){ return next(err); }
 
-			res.json(post);
+			res.json(data);
 		});
     });
 
