@@ -1,1 +1,1 @@
-angular.module('runningApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'GpsService']);
+angular.module('runningApp', ['ngRoute','ngCookies','appRoutes', 'indexController']);

@@ -23,21 +23,40 @@ exports.get = function(req, res) {
     });
 };
 
-exports.add = function(req,res) {
+exports.post = function(req,res, next) {
 	console.log("Add GPS data");
 
 	// Check if incomming data is correct
 	if(req.query.lon == "" || req.query.lat =="") {
 		res.send("Error");
 	} else { // Save lon och lat
-		var newGPS = new Gps();
-    	newGPS.lon = req.query.lon;
-    	newGPS.lat = req.query.lat;
+		var gps = new Gps();
+    	gps.lon = req.query.lon;
+    	gps.lat = req.query.lat;
+        gps.activity = req.activity;
 
-		newGPS.save(function(err, data){
+        console.log(req);
+
+		gps.save(function(err, gps){
 			if(err){ return next(err); } 
 
-			res.json(data);
+            req.activity.gpsData.push(gps);
+            req.activity.save(function(err,activity) {
+                if(err) {return next(err);}
+                res.json(gps);
+            })
 		});
 	}
+};
+
+exports.paramid = function(req, res, next, id) {
+  var query = Gps.findById(id);
+
+  query.exec(function (err, gps){
+    if (err) { return next(err); }
+    if (!gps) { return next(new Error('can\'t find gps')); }
+
+    req.gps = gps;
+    return next();
+  });
 };
