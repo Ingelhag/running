@@ -5,7 +5,7 @@
 module.exports = function(app) {
 
 	// Insert routes below
-	app.use('/api/', 	                         require('./allRoutes'));
+	app.use('/api/', require('./allRoutes'));
 
 
     app.get('*', function(req, res) {
