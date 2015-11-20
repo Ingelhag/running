@@ -23,7 +23,7 @@ exports.get = function(req, res) {
     });
 };
 
-exports.post = function(req,res, next) {
+exports.post = function(req,res,next) {
 	console.log("Add GPS data");
 
 	// Check if incomming data is correct

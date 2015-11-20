@@ -4,8 +4,10 @@
   "dependencies": {
     "bootstrap": "latest",
     "angular": ">=1.2.*",
+    "angular-cookies": "~1.4.7",
+    "angular": ">=1.2.*",
+    "jquery": "~1.11.0",
     "angular-resource": ">=1.2.*",
-    "angular-route": ">=1.2.*",
-    "angular-cookies": "~1.4.7"
+    "angular-route": ">=1.2.*"
   }
 }

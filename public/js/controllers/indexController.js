@@ -9,6 +9,7 @@
 			$cookies.put('user', null);
 		}
 
+		// Facebook init
 		window.fbAsyncInit = function() {
 		    FB.init({
 		      appId      : '435155786609216',
@@ -84,13 +85,14 @@
 					email: 			response.email,
 				}
 
+				// Create a new user OR log in the user
 				$http({
 						url: 'api/user/login/',
 						method: "GET",
 						params: newUser
 				}).success(function(data){
-					$rootScope.loggedIn = true;		
-					$rootScope.user = data;	
+					$rootScope.loggedIn = true;
+					$rootScope.user = data;
 
 					$cookies.put('loggedIn', true);
 					$cookies.put('user', JSON.stringify(data));

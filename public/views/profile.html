@@ -3,6 +3,8 @@
 		<h2>Mina aktiviterer</h2>
 	</div>
 	<div class="col-md-2">
-		<button class="btn" ng-click="profile.startTracking();">Starta tracker</button>
+		<button ng-show="!profile.getStatus();" class="btn" ng-click="profile.startTracking();">Starta tracker</button>
+		<button ng-show="profile.getStatus();" class="btn" ng-click="profile.stopTracking();">Stoppa tracker</button>
+		<span>Senaste gpsdatan var: {{gpsdata}}</span>
 	</div>
 </div>

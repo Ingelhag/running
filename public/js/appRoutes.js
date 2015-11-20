@@ -1,19 +1,18 @@
-angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('appRoutes', []).config(['$stateProvider','$urlRouterProvider', '$locationProvider', function($stateProvider,$urlRouterProvider,$locationProvider) {
 
-	$routeProvider
-		// home page
-		.when('/', {
-            templateUrl: 'views/home.html'
-        })
-        .when('/profile', {
-            templateUrl: 'views/profile.html',
-            controller: 'profileController',
-            controllerAs: 'profile'
-        })
-        .otherwise({
-        redirectTo: '/'
+    $urlRouterProvider.otherwise("/");
+
+
+    $stateProvider
+    .state('home', {
+        url: '/',
+        templateUrl: './views/home.html',
+    })
+    .state('profile', {
+        url: '/profile',
+        templateUrl: './views/profile.html',
+        controller: 'profileController',
+        controllerAs:'profile'
     });
-
-	$locationProvider.html5Mode(true);
-
 }]);
+
