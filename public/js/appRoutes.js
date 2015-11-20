@@ -3,8 +3,12 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 	$routeProvider
 		// home page
 		.when('/', {
-			templateUrl: 'views/home.html'
-		});
+            templateUrl: 'views/home.html'
+        })
+        .when('/profile', {
+            templateUrl: 'views/profile.html',
+            controller: 'profileController'
+        });;
 
 	$locationProvider.html5Mode(true);
 

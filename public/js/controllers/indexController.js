@@ -1,12 +1,14 @@
 (function(){
 	var app = angular.module('indexController', []); 
 
-	app.run(['$rootScope', '$window', '$cookies', function($rootScope, $window, $cookies) {
+	app.run(['$window', '$cookies', function($window, $cookies) {
+
+		console.log("Loggad: " + $cookies.get('loggedIn'));
 
 		// If the someone is logged in
-		if($cookies.loggedIn  != "true") {
-			$cookies.loggedIn 	= false;
-			$cookies.user 		= null;
+		if($cookies.get('loggedIn')  != "true") {
+			$cookies.put('loggedIn', false);
+			$cookies.put('user', null);
 		}
 
 		window.fbAsyncInit = function() {
@@ -27,13 +29,12 @@
 
 	}]);
 
-	app.controller("navController", function($rootScope, $cookies){
+	app.controller("mainController", function($rootScope, $cookies){
 
 		// Get information from cookies
-		$rootScope.user 		= JSON.parse($cookies.user);
-  		$rootScope.loggedIn 	= $cookies.loggedIn;
-
-
+		$rootScope.user 		= JSON.parse($cookies.get('user'));
+  		$rootScope.loggedIn 	= ($cookies.get('loggedIn') != "false");
+  		console.log($rootScope.user);
 
    		this.status = function(){
    			return $rootScope.loggedIn;
@@ -41,10 +42,10 @@
 
    		this.logout = function(){
    			console.log("Log out");
-   			$rootScope.user 	= {}
+   			$rootScope.user 	= null;
    			$rootScope.loggedIn = false;
-   			$cookies.user 		= null
-   			$cookies.loggedIn 	= {};
+   			$cookies.put('loggedIn', false);
+			$cookies.put('user', null);
    		}
 	});
 
@@ -91,8 +92,8 @@
 					$rootScope.loggedIn = true;		
 					$rootScope.user = data;	
 
-					$cookies.loggedIn = true;
-					$cookies.user = JSON.stringify(data);
+					$cookies.put('loggedIn', true);
+					$cookies.put('user', JSON.stringify(data));
 				});
 			});
 		}
