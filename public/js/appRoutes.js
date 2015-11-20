@@ -7,8 +7,12 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
         })
         .when('/profile', {
             templateUrl: 'views/profile.html',
-            controller: 'profileController'
-        });;
+            controller: 'profileController',
+            controllerAs: 'profile'
+        })
+        .otherwise({
+        redirectTo: '/'
+    });
 
 	$locationProvider.html5Mode(true);
 

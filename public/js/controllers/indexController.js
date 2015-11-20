@@ -3,8 +3,6 @@
 
 	app.run(['$window', '$cookies', function($window, $cookies) {
 
-		console.log("Loggad: " + $cookies.get('loggedIn'));
-
 		// If the someone is logged in
 		if($cookies.get('loggedIn')  != "true") {
 			$cookies.put('loggedIn', false);
@@ -36,10 +34,12 @@
   		$rootScope.loggedIn 	= ($cookies.get('loggedIn') != "false");
   		console.log($rootScope.user);
 
+  		// Returns true or false, status of signed in
    		this.status = function(){
    			return $rootScope.loggedIn;
    		}
 
+   		// Logout from application
    		this.logout = function(){
    			console.log("Log out");
    			$rootScope.user 	= null;
