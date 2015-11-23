@@ -38,7 +38,7 @@
         }
     });
 
-    app.controller("activityController", function($window, $scope, $rootScope, $http, NgMap) {
+    app.controller("activityController", function($window, $scope, $rootScope, $http) {
         var activity = this;
         activity.activities = [];
 
