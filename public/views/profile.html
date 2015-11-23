@@ -1,10 +1,27 @@
 <div class="row">
-	<div class="col-md-10">
+	<div class="col-md-10" ng-controller="activityController as activity">
 		<h2>Mina aktiviterer</h2>
+		<div ng-controller="mapController">
+	        <map zoom="8" center="[0, 0]"></map>
+   	 	</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<td>#</td>
+					<td>Namn på aktiviteten</td>
+					<td></td>
+				</tr>
+			</thead>
+			<tr ng-repeat="act in activity.activities">
+				<td>{{$index+1}}</td>
+				<td>{{act._id}}</td>
+				<td>Kika på skiten</td>
+			</tr>
+		</table>
 	</div>
-	<div class="col-md-2">
-		<button ng-show="!profile.getStatus();" class="btn" ng-click="profile.startTracking();">Starta tracker</button>
-		<button ng-show="profile.getStatus();" class="btn" ng-click="profile.stopTracking();">Stoppa tracker</button>
+	<div class="col-md-2" ng-controller="trackingController as tracking">
+		<button ng-show="!tracking.getStatus();" class="btn" ng-click="tracking.startTracking();">Starta tracker</button>
+		<button ng-show="tracking.getStatus();" class="btn" ng-click="tracking.stopTracking();">Stoppa tracker</button>
 		<span>Senaste gpsdatan var: {{gpsdata}}</span>
 	</div>
 </div>

@@ -33,7 +33,6 @@
 		// Get information from cookies
 		$rootScope.user 		= JSON.parse($cookies.get('user'));
   		$rootScope.loggedIn 	= ($cookies.get('loggedIn') != "false");
-  		console.log($rootScope.user);
 
   		// Returns true or false, status of signed in
    		this.status = function(){

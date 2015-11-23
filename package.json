@@ -2,14 +2,11 @@
   "name": "starter-node-angular",
   "main": "server.js",
   "dependencies": {
-    "angular-ui-router": "^0.2.15",
+    "angular-google-maps": "^2.2.1",
     "body-parser": "~1.4.2",
+    "ejs": "^2.3.4",
     "express": "~4.5.1",
     "method-override": "~2.0.2",
-    "mongoose": "~3.8.0",
-    "bower": "0.6.x"
-  },
-  "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install"
-}
+    "mongoose": "~3.8.0"
+  }
 }

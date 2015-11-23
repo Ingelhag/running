@@ -2,6 +2,7 @@
 
 var Gps = require('./gps.model');
 
+
 // Get list of things
 exports.index = function(req, res) {
   User.find(function (err, things) {
@@ -12,9 +13,9 @@ exports.index = function(req, res) {
 
 // Get all data from gps
 exports.get = function(req, res) {
-	console.log("Get GPS data");
+	console.log("Get GPS data from activity: " + req.activity._id);
 
-    Gps.find(function(err, data) {
+    Gps.find({'activity': req.activity}, function(err, data) {
 
         if (err)
             res.send(err);
@@ -24,7 +25,6 @@ exports.get = function(req, res) {
 };
 
 exports.post = function(req,res,next) {
-	console.log("Add GPS data");
 
 	// Check if incomming data is correct
 	if(req.query.lon == "" || req.query.lat =="") {

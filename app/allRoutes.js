@@ -16,6 +16,7 @@ router.get('/user/:user', function(req, res) {
 
 // Activity
 router.param('activity', activityController.paramid);
+router.get('/user/:user/activity', activityController.get);
 router.post('/user/:user/activity', activityController.post);
 router.get('/user/:user/activity/:activity', function(req, res) {
   res.json(req.activity);
@@ -23,6 +24,7 @@ router.get('/user/:user/activity/:activity', function(req, res) {
 
 // Gps
 router.param('gps', gpsController.paramid);
+router.get('/user/:user/activity/:activity/gps', gpsController.get);
 router.post('/user/:user/activity/:activity/gps', gpsController.post);
 router.get('/user/:user/activity/:activity/gps/:gps/', function(req, res) {
   res.json(req.activity);

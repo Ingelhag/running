@@ -5,9 +5,9 @@ var Activity = require('./activity.model');
 
 // Get all users
 exports.get = function(req, res) {
-    console.log("Get all users");
+    console.log("Get all activities from user: " + req.user._id);
 
-    Activity.find(function(err, data) {
+    Activity.find({'user': req.user._id},function(err, data) {
         if (err)
           res.send(err);
 
@@ -19,8 +19,6 @@ exports.post = function(req, res, next) {
     
   console.log("Add new activity");
   console.log(req.user);
-
-
 
   var activity = new Activity();
   activity.activity = req.activity;

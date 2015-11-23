@@ -7,6 +7,9 @@ var methodOverride = require('method-override');
 
 // configuration ===========================================
 
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 var port = process.env.PORT || 8000; // set our port
 mongoose.connect("mongodb://Ingelhag:8442a9c8@ds053784.mongolab.com:53784/running-gps"); // connect to our mongoDB database (commented out after you enter in your own credentials)
 

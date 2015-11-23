@@ -6,13 +6,11 @@ angular.module('appRoutes', []).config(['$stateProvider','$urlRouterProvider', '
     $stateProvider
     .state('home', {
         url: '/',
-        templateUrl: './views/home.html',
+        templateUrl: './views/home.html'
     })
     .state('profile', {
         url: '/profile',
-        templateUrl: './views/profile.html',
-        controller: 'profileController',
-        controllerAs:'profile'
+        templateUrl: './views/profile.html'
     });
 }]);
 
