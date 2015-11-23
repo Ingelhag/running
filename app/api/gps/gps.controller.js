@@ -26,6 +26,8 @@ exports.get = function(req, res) {
 
 exports.post = function(req,res,next) {
 
+    console.log("Add new gpsdata");
+
 	// Check if incomming data is correct
 	if(req.query.lon == "" || req.query.lat =="") {
 		res.send("Error");
