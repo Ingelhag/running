@@ -96,6 +96,7 @@
             console.log("Stop tracking");
             clearInterval(interval);
             status = false;
+            $scope.gpsdata = "https://desolate-temple-8386.herokuapp.com/api/user/"+$rootScope.user._id+"/activity/"+currentActivityId+"/gps";
             currentActivityId = null;
         }
 

@@ -22,6 +22,6 @@
 	<div class="col-md-2" ng-controller="trackingController as tracking">
 		<button ng-show="!tracking.getStatus();" class="btn" ng-click="tracking.startTracking();">Starta tracker</button>
 		<button ng-show="tracking.getStatus();" class="btn" ng-click="tracking.stopTracking();">Stoppa tracker</button>
-		<span>Senaste gpsdatan var: {{gpsdata}}</span>
+		<span>{{gpsdata}}</span>
 	</div>
 </div>
