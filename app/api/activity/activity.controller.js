@@ -36,6 +36,26 @@ exports.post = function(req, res, next) {
   });
 };
 
+exports.update = function(req, res) {
+
+  console.log("Update activity");
+
+  req.activity.totalTime = req.query.totalTime;
+  req.activity.averageTime = req.query.avgTime;
+  req.activity.distance = req.query.distance;
+
+  console.log(req.query.totalTime);
+  console.log(req.query.avgTime);
+  console.log(req.query.distance);
+
+  req.activity.save(function(err, activity) {
+    if(err){return next(err);}
+    console.log(activity);
+    res.json("success");
+  });
+
+};
+
 exports.paramid = function(req, res, next, id) {
   var query = Activity.findById(id);
 

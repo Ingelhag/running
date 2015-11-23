@@ -1,27 +1,57 @@
 <div class="row">
-	<div class="col-md-10" ng-controller="activityController as activity">
-		<h2>Mina aktiviterer</h2>
-		<div ng-controller="mapController">
+	<div class="col-md-12" ng-controller="trackingController as tracking">
+		<button class="btn" ng-click="tracking.startTracking();">Skapa ny aktivitet</button>
+		<span>{{gpsdata}}</span>
+	</div>
+</div>
+<div class="row" ng-controller="activityController as activity">
+	<div class="col-md-9">
+		<div>
 	        <map zoom="8" center="[0, 0]"></map>
    	 	</div>
-		<table class="table">
+		<table class="table table-hover">
 			<thead>
 				<tr>
 					<td>#</td>
 					<td>Namn på aktiviteten</td>
-					<td></td>
+					<td>Distans</td>
+					<td>Tid</td>
 				</tr>
 			</thead>
-			<tr ng-repeat="act in activity.activities">
+			<tr ng-repeat="act in activity.activities" ng-click="activity.setActivity(act._id);">
 				<td>{{$index+1}}</td>
 				<td>{{act._id}}</td>
-				<td>Kika på skiten</td>
+				<td>{{act.distance}}</td>
+				<td>{{act.totalTime}}</td>
 			</tr>
 		</table>
 	</div>
-	<div class="col-md-2" ng-controller="trackingController as tracking">
-		<button ng-show="!tracking.getStatus();" class="btn" ng-click="tracking.startTracking();">Starta tracker</button>
-		<button ng-show="tracking.getStatus();" class="btn" ng-click="tracking.stopTracking();">Stoppa tracker</button>
-		<span>{{gpsdata}}</span>
+	<div class="col-md-3 jumbotron" ng-controller="statisticsController as stat">
+		<h3>Statisik</h3>
+		<table>
+			<tbody>
+				<tr>
+					<td style="font-weight:bold;">Datum:</td>
+					<td>{{currentActivity.date}}</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Distance:</td>
+					<td>{{currentActivity.distance}} meter</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Tid:</td>
+					<td>{{currentActivity.totalTime}}</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Min/km:</td>
+					<td>{{currentActivity.averageTime}}</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Bästa km:</td>
+					<td>{{currentActivity.bestKm9}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<button class="btn" ng-click="stat.setStats();"></button>
 	</div>
 </div>

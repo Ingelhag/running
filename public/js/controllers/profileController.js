@@ -1,26 +1,120 @@
 (function(){
 	var app = angular.module('profileController', []); 
 
-    app.controller('mapController', function($scope, $http, $timeout, $rootScope) 
-    {
-        var runCoordinates = [];
-        $http({
-            url: 'api/user/'+$rootScope.user._id+'/activity',
-            method: "GET"
-        }).success(function(data){
+    app.controller("statisticsController", function($http, $rootScope) {
+
+        this.setStats = function() {
+            for(var i = 1; i < 2; i++) {
+                var theActivity = activity.activities[i];
+                if(theActivity.totalTime == "") {
+                    var gpsData = [];
+                
+                    $http({
+                        url: 'api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/gps',
+                        method: "GET"
+                    }).success(function(data){
+                        var activity = {
+                            totalTime   : calculateTotalTime(data),
+                            distance    : calculateDistance(data),
+                            avgTime     : 0
+                        };
+
+                        activity.avgTime = calculateAvgTime(activity.totalTime, activity.distance);
+
+                        $http({
+                            url: 'api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/update',
+                            method: "POST",
+                            params: activity
+                        }).success(function(data){
+                            console.log(data);
+                        });
+                    });
+                }
+            }
+        }
+
+        function calculateDistance(data) {
+            var coordinates = [];
+            // Set the activity coordinates.
+            for(var i=0; i<data.length; i++) {
+                if(data[i].lat != "") coordinates.push({lat:parseFloat(data[i].lat), lng:parseFloat(data[i].lon)});
+            }
+
+            var path = new google.maps.Polyline({
+                path: coordinates,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            return Math.floor(google.maps.geometry.spherical.computeLength(path.getPath()));
+        } 
+
+        // Returns the difference betwwen the first and the last time stamp in sec
+        function calculateTotalTime(gpsData) {
+            return ((new Date(gpsData[gpsData.length-1].time) - new Date(gpsData[0].time)) / 1000);
+        }
+
+        function calculateAvgTime(totalTime, distance) {
+            console.log("Time: " + totalTime);
+            console.log("Distance: " + distance);
+            return ((distance/1000) / (totalTime/60));
+        }
+    });
+
+    app.controller("activityController", function($window, $scope, $rootScope, $http) {
+        // Decalre variables
+        var activity = this;
+        activity.activities = [];
+        $scope.currentActivity = [];
+        getActivities();
+        
+        var setActivity = function(activityId) {
+            // Set current activity
+            var results = $.grep(activity.activities, function(e){ return e._id == activityId; });
+            $scope.currentActivity = results[0];
+            console.log(results[0]);
+
+            // Get all gpsdata for this activity
             $http({
-                url: 'api/user/'+$rootScope.user._id+'/activity/'+data[0]._id+'/gps',
+                url: 'api/user/'+$rootScope.user._id+'/activity/'+activityId+'/gps',
                 method: "GET"
             }).success(function(data){
-                // Save id of the activity
-                for(var i=0; i<data.length; i++) {
-                    runCoordinates.push({lat:parseFloat(data[i].lat), lng:parseFloat(data[i].lon)});
-                }
-                GenerateMapMarkers();
-            });
-        });
 
-        function GenerateMapMarkers() {
+                // Clear all coordinates
+                var runCoordinates = [];
+                // Set the activity coordinates.
+                for(var i=0; i<data.length; i++) {
+                    if(data[i].lat != "") runCoordinates.push({lat:parseFloat(data[i].lat), lng:parseFloat(data[i].lon)});
+                }
+                // Generate a ployline at the map
+                GenerateMapMarkers(runCoordinates);
+            });
+        };
+        this.setActivity = setActivity;
+
+
+        this.getCurrentActivity = function() {
+            return currentActivity;
+        }
+
+
+        // Get all acitivities
+        function getActivities() {
+
+            $http({
+                url: 'api/user/'+$rootScope.user._id+'/activity',
+                method: "GET"
+            }).success(function(data){
+                $scope.currentActivity = data[0];
+                setActivity(data[0]._id);
+                activity.activities = data;
+            });
+        }
+
+        // Generates a ployline at the map
+        function GenerateMapMarkers(runCoordinates) {
 
             var runPath = new google.maps.Polyline({
                 path: runCoordinates,
@@ -28,7 +122,7 @@
                 strokeColor: '#FF0000',
                 strokeOpacity: 1.0,
                 strokeWeight: 2
-                });
+            });
 
             $scope.map.setCenter(runCoordinates[0]);
             $scope.map.setZoom(14);
@@ -36,85 +130,24 @@
         }
     });
 
-    app.controller("activityController", function($window, $scope, $rootScope, $http) {
-        var activity = this;
-        activity.activities = [];
-
-        //Get all activities for the user
-        $http({
-            url: 'api/user/'+$rootScope.user._id+'/activity',
-            method: "GET"
-        }).success(function(data){
-            // Save id of the activity
-            activity.activities = data;
-        });
-
-    });
-
 	app.controller("trackingController", function($scope, $rootScope, $http){
 
         /*** Variables ***/
-        var interval;
-        var status = false;
-        var currentActivityId = null;
-
+        $scope.status = true;
         $scope.gpsdata = null;
 
 
-        /*** Functions ***/
-        this.getStatus = function() {
-            return status;
-        }
-
 		this.startTracking = function() {
-
             //Create a new activity
             $http({
                 url: 'api/user/'+$rootScope.user._id+'/activity',
                 method: "POST"
             }).success(function(data){
                 // Save id of the activity
-                currentActivityId = data._id;
-                status = true
+                $scope.gpsdata = "https://desolate-temple-8386.herokuapp.com/api/user/"+$rootScope.user._id+"/activity/"+data._id+"/gps";
+                $scope.status = false;
             });
-
-   //          // Check if we got geolocation
-			// if ("geolocation" in navigator) {
-   //              status = true;
-
-   //              // Save gps data every 10sec
-   //              interval = setInterval(function() {
-   //                  navigator.geolocation.getCurrentPosition(AddGpsData);
-   //              }, 10000);
-   //          } else {
-   //              console.log("Ingen gps-data");
-   //          }
 		}
-
-        // Stop tracking and saving gps data
-        this.stopTracking = function() {
-            console.log("Stop tracking");
-            clearInterval(interval);
-            status = false;
-            $scope.gpsdata = "https://desolate-temple-8386.herokuapp.com/api/user/"+$rootScope.user._id+"/activity/"+currentActivityId+"/gps";
-            currentActivityId = null;
-        }
-
-        // Add gps data to DB
-        function AddGpsData(position) {
-            console.log("Add gps data to db");
-            if(currentActivityId != null) {
-                //Create gpsdata
-                $http({
-                    url: 'api/user/'+$rootScope.user._id+'/activity/'+currentActivityId+'/gps',
-                    method: "POST",
-                    params: {lat: position.coords.latitude, lon: position.coords.longitude}
-                }).success(function(data){
-                    // Save id of the activity
-                    $scope.gpsdata = data;
-                });
-            }
-        }
 
 	});
 })();

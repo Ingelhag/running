@@ -2,7 +2,6 @@
 
 var Gps = require('./gps.model');
 
-
 // Get list of things
 exports.index = function(req, res) {
   User.find(function (err, things) {

@@ -5,7 +5,6 @@ var gpsController       = require('./api/gps/gps.controller');
 
 var router      = express.Router();
 
-
 // User
 router.get('/user',         userController.get);
 router.get('/user/login',   userController.login);
@@ -18,6 +17,7 @@ router.get('/user/:user', function(req, res) {
 router.param('activity', activityController.paramid);
 router.get('/user/:user/activity', activityController.get);
 router.post('/user/:user/activity', activityController.post);
+router.post('/user/:user/activity/:activity/update', activityController.update);
 router.get('/user/:user/activity/:activity', function(req, res) {
   res.json(req.activity);
 });
