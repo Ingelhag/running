@@ -3,16 +3,27 @@
 
     app.controller("statisticsController", function($http, $rootScope) {
 
+        statistics = this;
+        statistics.activities = [];
+
+        // Fetch all activities
+        $http.get('api/user/'+$rootScope.user._id+'/activity').success(function(data) {
+            statistics.activities = data
+        });
+
+        // When user want to calc
         this.setStats = function() {
+            // Loop through all activiteties
             for(var i = 1; i < 2; i++) {
-                var theActivity = activity.activities[i];
+                var theActivity = statistics.activities[i];
+
+                // If not all attributes allready is set
                 if(theActivity.totalTime == "") {
                     var gpsData = [];
                 
-                    $http({
-                        url: 'api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/gps',
-                        method: "GET"
-                    }).success(function(data){
+                    // Fetch GPS data
+                    $http.get('api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/gps').success(function(data) {
+                        // Create a new activity object
                         var activity = {
                             totalTime   : calculateTotalTime(data),
                             distance    : calculateDistance(data),
@@ -21,13 +32,12 @@
 
                         activity.avgTime = calculateAvgTime(activity.totalTime, activity.distance);
 
+                        // Save the changes
                         $http({
                             url: 'api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/update',
                             method: "POST",
                             params: activity
-                        }).success(function(data){
-                            console.log(data);
-                        });
+                        }).success(function(data){console.log(data);});
                     });
                 }
             }
@@ -43,9 +53,6 @@
             var path = new google.maps.Polyline({
                 path: coordinates,
                 geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2
             });
 
             return Math.floor(google.maps.geometry.spherical.computeLength(path.getPath()));
@@ -57,8 +64,6 @@
         }
 
         function calculateAvgTime(totalTime, distance) {
-            console.log("Time: " + totalTime);
-            console.log("Distance: " + distance);
             return ((distance/1000) / (totalTime/60));
         }
     });
