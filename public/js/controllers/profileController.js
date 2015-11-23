@@ -15,9 +15,7 @@
                 // Save id of the activity
                 for(var i=0; i<data.length; i++) {
                     runCoordinates.push({lat:parseFloat(data[i].lat), lng:parseFloat(data[i].lon)});
-                    console.log(data[i].lon);
                 }
-                console.log(runCoordinates.length);
                 GenerateMapMarkers();
             });
         });
