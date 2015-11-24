@@ -107,4 +107,79 @@
 	        return d;
 	    };
 	});
+
+	app.controller("statisticsController", function($http, $rootScope) {
+
+        statistics = this;
+        statistics.activities = [];
+
+        // Fetch all activities
+        $http.get('api/user/'+$rootScope.user._id+'/activity').success(function(data) {
+            statistics.activities = data
+        });
+
+        // When user want to calc
+        this.setStats = function() {
+            // Loop through all activiteties
+            for(var i = 0; i < statistics.activities.length; i++) {
+                var theActivity = statistics.activities[i];
+
+                // If not all attributes allready is set
+                //if(theActivity.totalTime == "") {
+                    var gpsData = [];
+                    // Fetch GPS data
+                    $http.get('api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/gps').success(function(data) {
+                        // Create a new activity object
+                        var activity = {
+                            totalTime   : calculateTotalTime(data),
+                            distance    : calculateDistance(data),
+                            avgTime     : 0
+                        };
+
+                        activity.avgTime = calculateAvgTime(activity.totalTime, activity.distance);
+
+                        // Save the changes
+                        $http({
+                            url: 'api/user/'+$rootScope.user._id+'/activity/'+data[0].activity+'/update',
+                            method: "POST",
+                            params: activity
+                        }).success(function(updatedActivity){
+                            console.log(updatedActivity);
+                            $http({
+                                url: 'api/user/'+$rootScope.user._id+'/update',
+                                method: "POST",
+                                params: updatedActivity
+                            }).success(function(updatedUser){
+                            });
+
+                        });
+                    });
+                //}
+            }
+        }
+
+        function calculateDistance(data) {
+            var coordinates = [];
+            // Set the activity coordinates.
+            for(var i=0; i<data.length; i++) {
+                if(data[i].lat != "") coordinates.push({lat:parseFloat(data[i].lat), lng:parseFloat(data[i].lon)});
+            }
+
+            var path = new google.maps.Polyline({
+                path: coordinates,
+                geodesic: true,
+            });
+
+            return Math.floor(google.maps.geometry.spherical.computeLength(path.getPath()));
+        } 
+
+        // Returns the difference betwwen the first and the last time stamp in sec
+        function calculateTotalTime(gpsData) {
+            return parseInt((new Date(gpsData[gpsData.length-1].time) - new Date(gpsData[0].time)) / 1000);
+        }
+
+        function calculateAvgTime(totalTime, distance) {
+            return parseInt(totalTime / (distance/1000));
+        }
+    });
 })();

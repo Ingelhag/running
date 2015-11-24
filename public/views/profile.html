@@ -28,7 +28,7 @@
 	</div>
 
 	<div class="col-md-3">
-		<div class="col-md-12" style="background-color:lightgray; border-radius:9px; margin-bottom:10px;" ng-controller="statisticsController as stat">
+		<div class="col-md-12" style="background-color:lightgray; border-radius:9px; margin-bottom:10px;">
 			<h3>{{currentActivity.date | date:"dd/MM H:mm"}}</h3>
 			<h4>
 				Distans 
@@ -48,10 +48,20 @@
 			<button class="btn" ng-click="stat.setStats();"></button>
 		</div>
 
-		<div class="col-md-12" style="background-color:lightgray; border-radius:9px;">
-			<canvas id="longest" width="100" height="100"></canvas>
+		<div class="col-md-12" style="background-color:lightgray; border-radius:9px; margin-bottom:10px; text-align:center;">
+			<h4>Mot längsta</h4>
+			<div style="font-weight:bold;">{{$root.user.longestRun}}m</div>
+			<canvas id="longest" width="120" height="100"></canvas>
 			<br>
-			<canvas id="fastest" width="100" height="100"></canvas>
+			<h4>Mot snabbaste</h4>
+			<div style="font-weight:bold;">{{$root.user.bestAvgTime | secondsToDateTime | date:'mm:ss'}} min/km</div>
+			<canvas id="fastest" width="120" height="100"></canvas>
+		</div>
+		<div class="col-md-12" style="background-color:lightgray; border-radius:9px;" ng-controller="exportController as export">
+			<h3>Exporta</h3>
+			<button class="btn btn-default" ng-click="export.makeKML();">KML</button>
+			<button class="btn btn-default">XML</button>
+			<button class="btn btn-default">CSV</button>
 		</div>
 	</div>
 </div>

@@ -39,6 +39,9 @@
 				<li ng-show="!main.status()">
 					<a ng-click="login.login();" style="color:white; text-decoration: none;text-decoration:none; cursor:pointer;">Logga in</a>
 				</li>
+				<li ng-show="main.status()" ng-controller="statisticsController as stat">
+					<a style="color:white; text-decoration: none;text-decoration:none; cursor:pointer;" ng-click="stat.setStats()">Uppdatera databas</a>
+				</li>
 				<li ng-show="main.status()">
 					<a style="color:white; text-decoration: none;text-decoration:none; cursor:pointer;" href="#/profile">{{user.lastname}}</a>
 				</li>
