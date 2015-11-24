@@ -14,13 +14,12 @@
         // When user want to calc
         this.setStats = function() {
             // Loop through all activiteties
-            for(var i = 1; i < 2; i++) {
+            for(var i = 0; i < statistics.activities.length; i++) {
                 var theActivity = statistics.activities[i];
 
                 // If not all attributes allready is set
-                if(theActivity.totalTime == "") {
+                //if(theActivity.totalTime == "") {
                     var gpsData = [];
-                
                     // Fetch GPS data
                     $http.get('api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/gps').success(function(data) {
                         // Create a new activity object
@@ -34,12 +33,22 @@
 
                         // Save the changes
                         $http({
-                            url: 'api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/update',
+                            url: 'api/user/'+$rootScope.user._id+'/activity/'+data[0].activity+'/update',
                             method: "POST",
                             params: activity
-                        }).success(function(data){console.log(data);});
+                        }).success(function(updatedActivity){
+                            console.log(updatedActivity);
+                            $http({
+                                url: 'api/user/'+$rootScope.user._id+'/update',
+                                method: "POST",
+                                params: updatedActivity
+                            }).success(function(updatedUser){
+                                console.log(updatedUser);
+                            });
+
+                        });
                     });
-                }
+                //}
             }
         }
 
@@ -60,16 +69,17 @@
 
         // Returns the difference betwwen the first and the last time stamp in sec
         function calculateTotalTime(gpsData) {
-            return ((new Date(gpsData[gpsData.length-1].time) - new Date(gpsData[0].time)) / 1000);
+            return parseInt((new Date(gpsData[gpsData.length-1].time) - new Date(gpsData[0].time)) / 1000);
         }
 
         function calculateAvgTime(totalTime, distance) {
-            return ((distance/1000) / (totalTime/60));
+            return parseInt(totalTime / (distance/1000));
         }
     });
 
     app.controller("activityController", function($window, $scope, $rootScope, $http) {
         // Decalre variables
+        var runPath = null;
         var activity = this;
         activity.activities = [];
         $scope.currentActivity = [];
@@ -79,7 +89,6 @@
             // Set current activity
             var results = $.grep(activity.activities, function(e){ return e._id == activityId; });
             $scope.currentActivity = results[0];
-            console.log(results[0]);
 
             // Get all gpsdata for this activity
             $http({
@@ -99,12 +108,6 @@
         };
         this.setActivity = setActivity;
 
-
-        this.getCurrentActivity = function() {
-            return currentActivity;
-        }
-
-
         // Get all acitivities
         function getActivities() {
 
@@ -112,16 +115,17 @@
                 url: 'api/user/'+$rootScope.user._id+'/activity',
                 method: "GET"
             }).success(function(data){
-                $scope.currentActivity = data[0];
-                setActivity(data[0]._id);
                 activity.activities = data;
+                setActivity(data[0]._id);
             });
         }
 
         // Generates a ployline at the map
         function GenerateMapMarkers(runCoordinates) {
 
-            var runPath = new google.maps.Polyline({
+            if(runPath != null) runPath.setMap(null);
+
+            runPath = new google.maps.Polyline({
                 path: runCoordinates,
                 geodesic: true,
                 strokeColor: '#FF0000',
@@ -131,6 +135,7 @@
 
             $scope.map.setCenter(runCoordinates[0]);
             $scope.map.setZoom(14);
+            runPath.setMap(null);
             runPath.setMap($scope.map);
         }
     });

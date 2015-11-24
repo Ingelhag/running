@@ -6,52 +6,50 @@
 </div>
 <div class="row" ng-controller="activityController as activity">
 	<div class="col-md-9">
-		<div>
+		<div class="col-md-12">
 	        <map zoom="8" center="[0, 0]"></map>
    	 	</div>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<td>#</td>
-					<td>Namn på aktiviteten</td>
-					<td>Distans</td>
-					<td>Tid</td>
+   	 	<div class="col-md-12">
+			<table class="table table-hover">
+				<thead  class="thead-inverse">
+					<tr>
+						<th>Datum</th>
+						<th>Distans</th>
+						<th>Tid</th>
+					</tr>
+				</thead>
+				<tr ng-repeat="act in activity.activities" ng-click="activity.setActivity(act._id);">
+					<td>{{act.date | date:"yyyy - MM - dd"}}</td>
+					<td>{{act.distance}}</td>
+					<td>{{act.totalTime | secondsToDateTime | date:'HH:mm:ss'}}</td>
 				</tr>
-			</thead>
-			<tr ng-repeat="act in activity.activities" ng-click="activity.setActivity(act._id);">
-				<td>{{$index+1}}</td>
-				<td>{{act._id}}</td>
-				<td>{{act.distance}}</td>
-				<td>{{act.totalTime}}</td>
-			</tr>
-		</table>
+			</table>
+		</div>
 	</div>
-	<div class="col-md-3 jumbotron" ng-controller="statisticsController as stat">
-		<h3>Statisik</h3>
-		<table>
-			<tbody>
-				<tr>
-					<td style="font-weight:bold;">Datum:</td>
-					<td>{{currentActivity.date}}</td>
-				</tr>
-				<tr>
-					<td style="font-weight:bold;">Distance:</td>
-					<td>{{currentActivity.distance}} meter</td>
-				</tr>
-				<tr>
-					<td style="font-weight:bold;">Tid:</td>
-					<td>{{currentActivity.totalTime}}</td>
-				</tr>
-				<tr>
-					<td style="font-weight:bold;">Min/km:</td>
-					<td>{{currentActivity.averageTime}}</td>
-				</tr>
-				<tr>
-					<td style="font-weight:bold;">Bästa km:</td>
-					<td>{{currentActivity.bestKm9}}</td>
-				</tr>
-			</tbody>
-		</table>
-		<button class="btn" ng-click="stat.setStats();"></button>
+
+	<div class="col-md-3">
+		<div class="col-md-12" style="background-color:lightgray; border-radius:9px; margin-bottom:10px;" ng-controller="statisticsController as stat">
+			<h3>{{currentActivity.date | date:"dd/MM H:mm"}}</h3>
+			<h4>
+				Distans 
+				<br>
+				{{currentActivity.distance}}m
+			</h4>
+			<h4>
+				Totaltid 
+				<br>
+				{{currentActivity.totalTime | secondsToDateTime | date:'HH:mm:ss'}}
+			</h4>
+			<h4>
+				Medelhastighet
+				<br>
+				{{currentActivity.averageTime | secondsToDateTime | date:'mm:ss'}} min/km
+			</h4>
+			<button class="btn" ng-click="stat.setStats();"></button>
+		</div>
+
+		<div class="col-md-12" style="background-color:lightgray; border-radius:9px;">
+			Visa lite olika grafer på hur bra springturen är med hänsyn på de andra
+		</div>
 	</div>
 </div>

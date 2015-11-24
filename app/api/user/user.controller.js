@@ -42,6 +42,20 @@ exports.get = function(req, res) {
     });
 };
 
+exports.update = function(req, res) {
+
+  console.log("Update user");
+
+  if(parseFloat(req.user.bestAvgTime) > parseFloat(req.query.averageTime) || req.user.bestAvgTime == "") req.user.bestAvgTime = req.query.averageTime;
+  if(parseFloat(req.user.longestRun) < parseFloat(req.query.distance) || req.user.longestRun == "") req.user.longestRun  = req.query.distance;
+
+  req.user.save(function(err, user) {
+    if(err){return next(err);}
+    res.json(user);
+  });
+
+};
+
 exports.paramid = function(req, res, next, id) {
   var query = User.findById(id);
 

@@ -44,14 +44,12 @@ exports.update = function(req, res) {
   req.activity.averageTime = req.query.avgTime;
   req.activity.distance = req.query.distance;
 
-  console.log(req.query.totalTime);
-  console.log(req.query.avgTime);
-  console.log(req.query.distance);
+  console.log(req.activity._id);
+
 
   req.activity.save(function(err, activity) {
     if(err){return next(err);}
-    console.log(activity);
-    res.json("success");
+    res.json(activity);
   });
 
 };

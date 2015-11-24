@@ -12,6 +12,7 @@ router.param('user',        userController.paramid);
 router.get('/user/:user', function(req, res) {
   res.json(req.user);
 });
+router.post('/user/:user/update', userController.update);
 
 // Activity
 router.param('activity', activityController.paramid);
