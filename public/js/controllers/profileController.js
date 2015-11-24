@@ -104,6 +104,7 @@
                 }
                 // Generate a ployline at the map
                 GenerateMapMarkers(runCoordinates);
+                setCircles();
             });
         };
         this.setActivity = setActivity;
@@ -137,6 +138,37 @@
             $scope.map.setZoom(14);
             runPath.setMap(null);
             runPath.setMap($scope.map);
+        }
+
+        function setCircles() {
+            var longest = document.getElementById('longest');
+            var fastest = document.getElementById('fastest');
+            var circleArray = [longest, fastest];
+
+            for(var i=0; i<2; i++) {
+                var context = circleArray[i].getContext('2d');
+                context.clearRect(0, 0, circleArray[i].width, circleArray[i].height);
+
+                var percentage
+                if(i == 0) {
+                    percentage = $rootScope.user.bestAvgTime / $scope.currentActivity.averageTime;
+                } else {
+                    percentage = $scope.currentActivity.distance / $rootScope.user.longestRun;
+                }
+                var degrees = percentage * 360.0;
+                var radians = degrees * (Math.PI / 180);
+
+                var x = 50;
+                var y = 50;
+                var r = 30;
+                var s = 0;//1.5 * Math.PI;
+
+                context.beginPath();
+                context.lineWidth = 5;
+                context.arc(x, y, r, s, radians, false);
+                //context.closePath();
+                context.stroke();
+            }
         }
     });
 

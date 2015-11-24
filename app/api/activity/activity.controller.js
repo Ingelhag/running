@@ -18,8 +18,6 @@ exports.get = function(req, res) {
 exports.post = function(req, res, next) {
     
   console.log("Add new activity");
-  console.log(req.user);
-
   var activity = new Activity();
   activity.activity = req.activity;
   activity.user     = req.user;
@@ -43,9 +41,6 @@ exports.update = function(req, res) {
   req.activity.totalTime = req.query.totalTime;
   req.activity.averageTime = req.query.avgTime;
   req.activity.distance = req.query.distance;
-
-  console.log(req.activity._id);
-
 
   req.activity.save(function(err, activity) {
     if(err){return next(err);}

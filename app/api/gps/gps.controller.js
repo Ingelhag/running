@@ -36,8 +36,6 @@ exports.post = function(req,res,next) {
     	gps.lat = req.query.lat;
         gps.activity = req.activity;
 
-        console.log(req);
-
 		gps.save(function(err, gps){
 			if(err){ return next(err); } 
 
