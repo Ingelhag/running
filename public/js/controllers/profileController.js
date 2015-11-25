@@ -119,15 +119,4 @@
 		}
 
 	});
-
-    app.controller("exportController", function($rootScope, $http){
-        this.makeKML =function(activityId) {
-            $http({
-                url: 'api/user/'+$rootScope.user._id+'/activity/'+activityId+'/gps/makeKML',
-                method: "GET"
-            }).success(function(data){
-                console.log(data);
-            });
-        }
-    });
 })();

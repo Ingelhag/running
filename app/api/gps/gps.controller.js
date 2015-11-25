@@ -110,15 +110,17 @@ exports.makeKML = function(req, res) {
                     .end({ pretty: true});
 
         var fs = require('fs');
-        fs.writeFile("public/content/test.kml", xml, function(err) {
+        var filePath = "public/content/"+req.activity._id+".kml";
+
+        fs.writeFile(filePath, xml, function(err) {
             if(err) {
                 return console.log(err);
             }
-
             console.log("The file was saved!");
+            var path = require('path');
+            res.sendFile(path.resolve(filePath));
+            console.log("Send file!");
         }); 
-        console.log(xml);
-        res.json("success");
     });
 }
 

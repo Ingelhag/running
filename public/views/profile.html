@@ -57,11 +57,10 @@
 			<div style="font-weight:bold;">{{$root.user.bestAvgTime | secondsToDateTime | date:'mm:ss'}} min/km</div>
 			<canvas id="fastest" width="120" height="100"></canvas>
 		</div>
-		<div class="col-md-12" style="background-color:lightgray; border-radius:9px;" ng-controller="exportController as export">
+		<div class="col-md-12" style="background-color:lightgray; border-radius:9px;">
 			<h3>Exporta</h3>
-			<button class="btn btn-default" ng-click="export.makeKML(currentActivity._id);">KML</button>
-			<button class="btn btn-default">XML</button>
-			<button class="btn btn-default">CSV</button>
+			<a ng-href="api/user/{{$root.user._id}}/activity/{{currentActivity._id}}/gps/makeKML" class="btn btn-default" role="button">KML</a>
+			<a class="btn btn-default" role="button">XML</a>
 		</div>
 	</div>
 </div>
