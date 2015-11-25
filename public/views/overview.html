@@ -1,0 +1,69 @@
+<div class="row">
+	<div class="col-md-4">
+		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+			<h3>Antal användare</h3>
+			<h4>{{userOverview.users.length}}</h4>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+			<h3>Antal aktiviteter</h3>
+			<h4>{{userOverview.activities.length}}</h4>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<a href="/api/makeXML"> 
+			<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+				<h3>Exporta hela databasen</h3>
+				<h4>Till xml</h4>
+			</div>
+		</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-9">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Förnamn</th>
+					<th>Efternamn</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in userOverview.users" ng-click="userOverview.selectUser(user._id)">
+					<td>{{$index+1}}</td>
+					<td>{{user.firstname}}</td>
+					<td>{{user.lastname}}</td>
+					<td>{{user.email}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+
+	<div class="col-md-3">
+		<div class="col-md-12" style="background-color: lightgray; border-radius: 9px; margin-bottom:30px;">
+			<h3>{{userOverview.selectedUser.lastname}}</h3>
+
+			<h4>
+				Längsta distans
+				<br>
+				{{userOverview.selectedUser.longestRun}} meter
+			</h4>
+
+			<h4>
+				Bästa medeltempo
+				<br>
+				{{userOverview.selectedUser.bestAvgTime | secondsToDateTime | date:'mm:ss'}} min/km
+			</h4>
+
+			<h4>
+				Antal aktiviteter
+				<br>
+				{{userOverview.selectedUser.activities.length}}
+			</h4>
+		</div>
+	</div>
+</div>

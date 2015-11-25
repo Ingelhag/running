@@ -6,7 +6,7 @@ module.exports = function(app) {
 	app.use('/api/', require('./allRoutes'));
 
     app.get('*', function(req, res) {
-        res.sendfile('./public/views/home.html'); // load our public/index.html file
+        res.sendFile('../../public/views/home.html', { root: __dirname });
     });
 
 };

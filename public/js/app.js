@@ -1,1 +1,1 @@
-angular.module('runningApp', ['ui.router','ngCookies','appRoutes', 'indexController','profileController', 'ngMap']);
+angular.module('runningApp', ['ui.router','ngCookies','appRoutes', 'indexController','profileController', 'overviewController','ngMap']);

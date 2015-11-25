@@ -4,6 +4,17 @@ var Activity = require('./activity.model');
 
 
 // Get all users
+exports.getAll = function(req, res) {
+
+    Activity.find(function(err, data) {
+        if (err)
+          res.send(err);
+
+        res.json(data); 
+    });
+};
+
+// Get all users
 exports.get = function(req, res) {
     console.log("Get all activities from user: " + req.user._id);
 

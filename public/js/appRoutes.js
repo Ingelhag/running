@@ -11,6 +11,12 @@ angular.module('appRoutes', []).config(['$stateProvider','$urlRouterProvider', '
     .state('profile', {
         url: '/profile',
         templateUrl: './views/profile.html'
+    })
+    .state('overview', {
+        url: '/overview',
+        templateUrl: './views/overview.html',
+        controller: "userOverviewController",
+        controllerAs: 'userOverview'
     });
 }]);
 
