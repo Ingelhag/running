@@ -27,6 +27,7 @@ router.get('/user/:user/activity/:activity', function(req, res) {
 router.param('gps', gpsController.paramid);
 router.get('/user/:user/activity/:activity/gps', gpsController.get);
 router.get('/user/:user/activity/:activity/gps/add', gpsController.post);
+router.get('/user/:user/activity/:activity/gps/makeKML', gpsController.makeKML);
 router.get('/user/:user/activity/:activity/gps/:gps/', function(req, res) {
   res.json(req.activity);
 });

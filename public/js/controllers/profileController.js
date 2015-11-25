@@ -113,16 +113,21 @@
                 method: "POST"
             }).success(function(data){
                 // Save id of the activity
-                $scope.gpsdata = "https://desolate-temple-8386.herokuapp.com/api/user/"+$rootScope.user._id+"/activity/"+data._id+"/gps";
+                $scope.gpsdata = "https://desolate-temple-8386.herokuapp.com/api/user/"+$rootScope.user._id+"/activity/"+data._id+"/gps/add";
                 $scope.status = false;
             });
 		}
 
 	});
 
-    app.controller("exportController", function(){
-        this.makeKML =function() {
-            console.log("MAKE KML");
+    app.controller("exportController", function($rootScope, $http){
+        this.makeKML =function(activityId) {
+            $http({
+                url: 'api/user/'+$rootScope.user._id+'/activity/'+activityId+'/gps/makeKML',
+                method: "GET"
+            }).success(function(data){
+                console.log(data);
+            });
         }
     });
 })();

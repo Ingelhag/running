@@ -48,6 +48,80 @@ exports.post = function(req,res,next) {
 	}
 };
 
+exports.makeKML = function(req, res) {
+    console.log("MAKE KML");
+
+    Gps.find({'activity': req.activity}, function(err, data) {
+
+        if (err)
+            res.send(err);
+
+        var builder = require('xmlbuilder');
+        var xml = builder.create('kml')
+                    .att('xmlns','http://www.opengis.net/kml/2.2')
+                    .ele('Document')
+                        .ele('name')
+                        .txt('KMLFile')
+                        .up()
+                        .ele('Style')
+                        .att('id', 'transPurpleLineGreenPoly')
+                            .ele('LineStyle')
+                                .ele('color')
+                                .txt('7f00ff00')
+                                .up()
+                                .ele('width')
+                                .txt('7')
+                                .up()
+                            .up()
+                            .ele('PolyStyle')
+                                .ele('color')
+                                .txt('7f00ff00') 
+                                .up()
+                            .up()
+                        .up()
+                        .ele('Placemark')
+                            .ele('name')
+                            .txt('Absolute')
+                            .up()
+                            .ele('visibility')
+                            .txt('1')
+                            .up()
+                            .ele('description')
+                            .txt('Transparent purple line')
+                            .up()
+                            .ele('styleUrl')
+                            .txt('#transPurpleLineGreenPoly')
+                            .up()
+                            .ele('LineString')
+                                .ele('tessellate')
+                                .txt('1')
+                                .up()
+                                .ele('altitudeMode')
+                                .txt('absolute')
+                                .up()
+                                .ele('coordinates');
+                                for(var i=0; i<data.length; i++) {
+                                    if(data[i].lon != "") xml = xml.txt(data[i].lon + "," + data[i].lat + ", 0");
+                                }
+                                xml=xml.up()
+                            .up()
+                        .up()
+                    .up()
+                    .end({ pretty: true});
+
+        var fs = require('fs');
+        fs.writeFile("public/content/test.kml", xml, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+
+            console.log("The file was saved!");
+        }); 
+        console.log(xml);
+        res.json("success");
+    });
+}
+
 exports.paramid = function(req, res, next, id) {
   var query = Gps.findById(id);
 
