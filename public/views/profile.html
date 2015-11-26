@@ -1,10 +1,30 @@
 <div class="row">
+	<div class="col-md-4">
+		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+			<h3>Antal aktiviteter</h3>
+			<h4>{{activity.activities.length}}</h4>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+			<h3>Total längd</h3>
+			<h4>{{getTotalLength()}} meter</h4>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+			<h3>Total tid</h3>
+			<h4>{{getTotalDuration() | secondsToDateTime | date:'HH:mm:ss'}}</h4>
+		</div>
+	</div>
+</div>
+<div ng-hide="true" class="row">
 	<div class="col-md-12" ng-controller="trackingController as tracking">
 		<button class="btn" ng-click="tracking.startTracking();">Skapa ny aktivitet</button>
 		<span>{{gpsdata}}</span>
 	</div>
 </div>
-<div class="row" ng-controller="activityController as activity">
+<div class="row">
 	<div class="col-md-9">
 		<div class="col-md-12">
 	        <map zoom="8" center="[0, 0]"></map>
@@ -29,21 +49,21 @@
 
 	<div class="col-md-3">
 		<div class="col-md-12" style="background-color:lightgray; border-radius:9px; margin-bottom:10px;">
-			<h3>{{currentActivity.date | date:"dd/MM H:mm"}}</h3>
+			<h3>{{activity.currentActivity.date | date:"dd/MM H:mm"}}</h3>
 			<h4>
 				Distans 
 				<br>
-				{{currentActivity.distance}}m
+				{{activity.currentActivity.distance}}m
 			</h4>
 			<h4>
 				Totaltid 
 				<br>
-				{{currentActivity.totalTime | secondsToDateTime | date:'HH:mm:ss'}}
+				{{activity.currentActivity.totalTime | secondsToDateTime | date:'HH:mm:ss'}}
 			</h4>
 			<h4>
 				Medelhastighet
 				<br>
-				{{currentActivity.averageTime | secondsToDateTime | date:'mm:ss'}} min/km
+				{{activity.currentActivity.averageTime | secondsToDateTime | date:'mm:ss'}} min/km
 			</h4>
 			<button class="btn" ng-click="stat.setStats();"></button>
 		</div>
@@ -59,7 +79,7 @@
 		</div>
 		<div class="col-md-12" style="background-color:lightgray; border-radius:9px;">
 			<h3>Exporta</h3>
-			<a ng-href="api/user/{{$root.user._id}}/activity/{{currentActivity._id}}/gps/makeKML" class="btn btn-default" role="button">KML</a>
+			<a ng-href="api/user/{{$root.user._id}}/activity/{{activity.currentActivity._id}}/makeKML" class="btn btn-default" role="button">KML</a>
 			<a class="btn btn-default" role="button">XML</a>
 		</div>
 	</div>

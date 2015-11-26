@@ -6,13 +6,13 @@
         var runPath = null;
         var activity = this;
         activity.activities = [];
-        $scope.currentActivity = [];
+        activity.currentActivity = [];
         getActivities();
         
         var setActivity = function(activityId) {
             // Set current activity
             var results = $.grep(activity.activities, function(e){ return e._id == activityId; });
-            $scope.currentActivity = results[0];
+            activity.currentActivity = results[0];
 
             // Get all gpsdata for this activity
             $http({
@@ -75,9 +75,9 @@
 
                 var percentage
                 if(i == 0) {
-                    percentage = $scope.currentActivity.distance / $rootScope.user.longestRun;
+                    percentage = activity.currentActivity.distance / $rootScope.user.longestRun;
                 } else {
-                    percentage = $rootScope.user.bestAvgTime / $scope.currentActivity.averageTime;
+                    percentage = $rootScope.user.bestAvgTime / activity.currentActivity.averageTime;
                 }
                 var degrees = percentage * 360.0;
                 var radians = degrees * (Math.PI / 180);
@@ -96,6 +96,21 @@
                 context.arc(x, y, r, s, radians, false);
                 context.stroke();
             }
+        }
+
+        $scope.getTotalLength = function() {
+            var totalLength = 0;
+            for(var i = 0; i < activity.activities.length; i++) {
+                totalLength += parseFloat(activity.activities[i].distance);
+            }
+            return totalLength;
+        }
+        $scope.getTotalDuration = function() {
+            var totalDuration = 0;
+            for(var i = 0; i < activity.activities.length; i++) {
+                totalDuration += parseFloat(activity.activities[i].totalTime);
+            }
+            return totalDuration;
         }
     });
 

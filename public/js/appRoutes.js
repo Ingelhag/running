@@ -10,7 +10,9 @@ angular.module('appRoutes', []).config(['$stateProvider','$urlRouterProvider', '
     })
     .state('profile', {
         url: '/profile',
-        templateUrl: './views/profile.html'
+        templateUrl: './views/profile.html',
+        controller: 'activityController',
+        controllerAs: 'activity'
     })
     .state('overview', {
         url: '/overview',
