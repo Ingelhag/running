@@ -2,12 +2,16 @@
 
 var Gps = require('./gps.model');
 
-// Get list of things
-exports.index = function(req, res) {
-  User.find(function (err, things) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, things);
-  });
+// Get gps data
+exports.getAll = function(req, res) {
+    console.log("Get all users");
+
+    Gps.find(function(err, data) {
+        if (err)
+          res.send(err);
+
+        res.json(data); 
+    });
 };
 
 // Get all data from gps

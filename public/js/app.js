@@ -1,1 +1,11 @@
-angular.module('runningApp', ['ui.router','ngCookies','appRoutes', 'indexController','profileController', 'overviewController','ngMap']);
+angular.module('runningApp', ['ui.router',
+    'ngCookies',
+    'appRoutes',
+    'indexController',
+    'profileController',
+    'overviewController',
+    'homeController',
+    'ngMap',
+    'angular-clipboard',
+    'rzModule',
+    'ui.bootstrap']);

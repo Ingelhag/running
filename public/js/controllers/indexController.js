@@ -18,13 +18,14 @@
 		    });
 		  };
 
-		  (function(d, s, id){
-		     var js, fjs = d.getElementsByTagName(s)[0];
-		     if (d.getElementById(id)) {return;}
-		     js = d.createElement(s); js.id = id;
-		     js.src = "//connect.facebook.net/en_US/sdk.js";
-		     fjs.parentNode.insertBefore(js, fjs);
-		   }(document, 'script', 'facebook-jssdk'));
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
 
 	}]);
 
@@ -109,23 +110,23 @@
 	});
 
 	app.controller("statisticsController", function($http, $rootScope) {
-
-        statistics = this;
-        statistics.activities = [];
-
         // Fetch all activities
-        $http.get('api/user/'+$rootScope.user._id+'/activity').success(function(data) {
-            statistics.activities = data
-        });
+        if($rootScope.user != null) {
+            $http.get('api/user/'+$rootScope.user._id+'/activity').success(function(data) {
+                setStats(data);
+            });
+        }
 
         // When user want to calc
-        this.setStats = function() {
+        function setStats(activities) {
+            console.log("Check stats");
             // Loop through all activiteties
-            for(var i = 0; i < statistics.activities.length; i++) {
-                var theActivity = statistics.activities[i];
+            for(var i = 0; i < activities.length; i++) {
+                var theActivity = activities[i];
 
                 // If not all attributes allready is set
-                //if(theActivity.totalTime == "") {
+                if(theActivity.totalTime == "") {
+                    console.log("Update stats");
                     var gpsData = [];
                     // Fetch GPS data
                     $http.get('api/user/'+$rootScope.user._id+'/activity/'+theActivity._id+'/gps').success(function(data) {
@@ -154,7 +155,7 @@
 
                         });
                     });
-                //}
+                }
             }
         }
 

@@ -5,6 +5,10 @@
     "bootstrap": "latest",
     "angular": "latest",
     "angular-route": "latest",
-    "angular-cookies": "latest" 
+    "angular-cookies": "latest",
+    "angular-ui-router": "~0.2.15",
+    "angular-clipboard": "~1.1.2",
+    "angularjs-slider": "~2.0.0",
+    "angular-bootstrap": "~0.14.3"
   }
 }

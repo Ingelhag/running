@@ -1,3 +1,40 @@
-<div class="jumbotron text-center">
-	<h1>Detta är ju bara en startsida</h1>
-</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-9" ng-controller="homeMapController as homemap">
+			<div class="row">
+				<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
+					<h3>Filter</h3>
+
+					<!--När på dagen:
+            		<rzslider rz-slider-model="slider.minValue" 
+            				rz-slider-high="slider.maxValue" 
+            				rz-slider-options="slider.options">
+    				</rzslider>-->
+
+					<button class="btn btn-default" ng-click="homemap.toggleHeatmap();">Heatmap</button>
+					<button class="btn btn-default" ng-click="homemap.togglePolyline();">Polyline</button>
+				</div>
+			</div>
+			<div class="row">
+				<map zoom="8" center="[0, 0]"></map>
+			</div>
+		</div>
+		<div 	
+				ng-show="$root.user != null"
+				class="col-md-3" 
+				style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;"
+				ng-controller="trackingController">
+				<h3>Skapa ny aktivitet</h3>
+				<div class="form-group">
+					<button ng-show="!newActivity" class="btn btn-default" ng-click="startTracking()">Klicka här</button>
+					<input ng-show="newActivity" ng-model="gspLink"></input>
+					<button clipboard text="gspLink" ng-show="newActivity" class="btn btn-default">Kopiera</button>
+				</div>
+				<p ng-show="newActivity" style="text-align:left;">
+					<b>Instruktioner</b>
+					<br>
+					Länken ovan lägger du in i androidappen <i>Self-Hosted GPS Tracker<i> för att föra in gpsdata till din akitivitet
+				</p>
+		</div>
+	</div>
+</div> 

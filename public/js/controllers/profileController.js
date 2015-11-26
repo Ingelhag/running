@@ -113,25 +113,4 @@
             return totalDuration;
         }
     });
-
-	app.controller("trackingController", function($scope, $rootScope, $http){
-
-        /*** Variables ***/
-        $scope.status = true;
-        $scope.gpsdata = null;
-
-
-		this.startTracking = function() {
-            //Create a new activity
-            $http({
-                url: 'api/user/'+$rootScope.user._id+'/activity',
-                method: "POST"
-            }).success(function(data){
-                // Save id of the activity
-                $scope.gpsdata = "https://desolate-temple-8386.herokuapp.com/api/user/"+$rootScope.user._id+"/activity/"+data._id+"/gps/add";
-                $scope.status = false;
-            });
-		}
-
-	});
 })();

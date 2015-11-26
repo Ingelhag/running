@@ -3,6 +3,7 @@
   "main": "server.js",
   "dependencies": {
     "angular-google-maps": "^2.2.1",
+    "angular-ui-router": "^0.2.15",
     "body-parser": "~1.4.2",
     "bower": "latest",
     "ejs": "^2.3.4",
