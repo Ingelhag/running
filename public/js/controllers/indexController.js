@@ -145,12 +145,12 @@
                             method: "POST",
                             params: activity
                         }).success(function(updatedActivity){
-                            console.log(updatedActivity);
                             $http({
                                 url: 'api/user/'+$rootScope.user._id+'/update',
                                 method: "POST",
                                 params: updatedActivity
                             }).success(function(updatedUser){
+                                $rootScope.user = updatedUser;
                             });
 
                         });
