@@ -122,77 +122,62 @@ function findElement(array, key) {
 }
 
 exports.makeKML = function(req, res) {
-    console.log("MAKE KML");
+    console.log("MAKE XMLXSLT");
+    var builder = require('xmlbuilder');
 
+    var xslStylesheet;
+    var xml = builder.create('gpspositions');
+
+    //Get gpspositions from DB
     Gps.find({'activity': req.activity}, function(err, data) {
 
         if (err)
             res.send(err);
 
-        var builder = require('xmlbuilder');
-        var xml = builder.create('kml')
-                    .att('xmlns','http://www.opengis.net/kml/2.2')
-                    .ele('Document')
-                        .ele('name')
-                        .txt('KMLFile')
+        // Create an xmlstring with lon, lat and time
+        for(var i=0; i<data.length; i++) {
+            if(data[i].lon != "") {
+                xml = xml.ele('gps')
+                        .ele('longitude')
+                        .txt(data[i].lon)
                         .up()
-                        .ele('Style')
-                        .att('id', 'transPurpleLineGreenPoly')
-                            .ele('LineStyle')
-                                .ele('color')
-                                .txt('7f00ff00')
-                                .up()
-                                .ele('width')
-                                .txt('7')
-                                .up()
-                            .up()
-                            .ele('PolyStyle')
-                                .ele('color')
-                                .txt('7f00ff00') 
-                                .up()
-                            .up()
+                        .ele('latitude')
+                        .txt(data[i].lat)
                         .up()
-                        .ele('Placemark')
-                            .ele('name')
-                            .txt('Absolute')
-                            .up()
-                            .ele('visibility')
-                            .txt('1')
-                            .up()
-                            .ele('description')
-                            .txt('Transparent purple line')
-                            .up()
-                            .ele('styleUrl')
-                            .txt('#transPurpleLineGreenPoly')
-                            .up()
-                            .ele('LineString')
-                                .ele('tessellate')
-                                .txt('1')
-                                .up()
-                                .ele('altitudeMode')
-                                .txt('absolute')
-                                .up()
-                                .ele('coordinates');
-                                for(var i=0; i<data.length; i++) {
-                                    if(data[i].lon != "") xml = xml.txt(data[i].lon + "," + data[i].lat + ", 0");
-                                }
-                                xml=xml.up()
-                            .up()
+                        .ele('date')
+                        .txt(data[i].time)
                         .up()
-                    .up()
-                    .end({ pretty: true});
+                    .up();
+            }
+        }
+        xml = xml.end({pretty:true});
 
+        // Read xsl stylesheet from file
+        var path = require('path');
         var fs = require('fs');
-        var filePath = "public/content/"+req.activity._id+".kml";
-
-        fs.writeFile(filePath, xml, function(err) {
-            if(err) {
+        fs.readFile("public/content/toKML.xsl", 'utf8', function (err,data) {
+            if (err) {
                 return console.log(err);
             }
-            console.log("The file was saved!");
-            var path = require('path');
-            res.sendFile(path.resolve(filePath));
-            console.log("Send file!");
-        }); 
+
+            xslStylesheet = data;
+
+            // Parse and apply stylesheet to the xmlfile
+            var libxslt = require('libxslt');
+            var stylesheet = libxslt.parse(xslStylesheet);
+            var result = stylesheet.apply(xml);
+
+            // Save the kml-file and download it for the user
+            var filePath = "public/content/kmldata.kml";
+            fs.writeFile(filePath, result, function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+                res.sendFile(path.resolve(filePath));
+            }); 
+        });
     });
 }
+
+
+

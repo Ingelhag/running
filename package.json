@@ -9,6 +9,7 @@
     "ejs": "^2.3.4",
     "express": "latest",
     "jquery": "latest",
+    "libxslt": "^0.6.0",
     "method-override": "~2.0.2",
     "mongoose": "~3.8.0",
     "xmlbuilder": "^4.1.0"
