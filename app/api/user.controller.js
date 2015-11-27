@@ -9,6 +9,8 @@ exports.login = function(req, res) {
   user.firstname      = req.query.firstName;
   user.lastname       = req.query.lastName;
   user.email          = req.query.email;
+  user.gender         = req.query.gender;
+  user.birthYear      = req.query.birthYear;
 
   // Check if a user exists, else create one. Returns the user
   User.findOne({'email' : user.email}, function(err, theUser) {
@@ -16,6 +18,7 @@ exports.login = function(req, res) {
       console.log("Error");
     } else if(theUser != null) {
       console.log("Found User");
+      console.log(theUser);
       return res.json(theUser);
     } else {
       console.log("Create new user");

@@ -1,1 +1,5 @@
 body { padding-top:30px; }
+
+rzslider .rz-bubble {
+	left:0;
+}

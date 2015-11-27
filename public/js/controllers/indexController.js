@@ -56,7 +56,7 @@
 			console.log("Try to login with facebook");
 			FB.login(function(response) {
 				statusChangeCallback(response);
-			}, {scope: 'email,user_likes'});
+			}, {scope: 'email,user_likes,user_birthday'});
 		};
 
 		// This is called with the results from from FB.getLoginStatus().
@@ -76,13 +76,16 @@
 		}
 
 		function login() {
-			FB.api('/me', {fields: 'last_name,email,first_name'}, function(response) {
+			FB.api('/me', {fields: 'last_name,email,first_name,birthday,gender'}, function(response) {
 
+                console.log(response.gender);
 				// Create a user
 				var newUser = {
 					firstName: 		response.first_name,
 					lastName: 		response.last_name,
-					email: 			response.email,
+                    email:          response.email,
+                    birthYear:      new Date(response.birthday).getYear()+1900,
+                    gender:         response.gender
 				}
 
 				// Create a new user OR log in the user
