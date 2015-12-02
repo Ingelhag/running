@@ -6,7 +6,11 @@
         var activitiyData = [];
         var gpsData = [];
 
-        var heatmap = null,polyLine = [];
+        var heatmap = null
+        var polyLine = [];
+
+        var input = null;
+        var searchBox = null; 
 
         $http.get('api/gps').success(function(gps){
             gpsData = gps;
@@ -66,8 +70,35 @@
         };
 
         setTimeout(function() {
+
+            // Set center and zoom of the map 
             $scope.map.setCenter({lat:58.59074959, lng:16.17492828});
             $scope.map.setZoom(14);
+
+            // Get the searchbox and connect it to google maps API
+            input = document.getElementById('pac-input');
+            searchBox = new google.maps.places.SearchBox(input);
+
+            // When a new place in selected in the searchbox
+            searchBox.addListener('places_changed', function() {
+
+                // If nothing was found
+                if(searchBox.getPlaces().length == 0) {
+                    return;
+                }
+
+                // Get the first place and set the bounds.
+                var place = searchBox.getPlaces()[0];
+                var bounds = new google.maps.LatLngBounds();
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                } 
+
+                // Go to the place the user serach for
+                $scope.map.fitBounds(bounds);
+            });
 
             generatePolylines();
             generateHeatmap();

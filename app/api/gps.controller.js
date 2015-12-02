@@ -32,7 +32,7 @@ exports.post = function(req,res,next) {
     console.log("Add new gpsdata");
 
 	// Check if incomming data is correct
-	if(req.query.lon == "" || req.query.lat =="") {
+	if(req.query.lon == null) {
 		res.send("Error");
 	} else { // Save lon och lat
 		var gps = new Gps();

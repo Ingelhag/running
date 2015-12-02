@@ -1,35 +1,43 @@
 <div class="row">
 	<div class="col-md-12">
-		<div class="col-md-offset-2 col-md-8" ng-controller="homeMapController as homemap">
+		<div class="col-md-offset-2 col-md-8" ng-controller="homeMapController as homemap">	
+
 			<div class="row">
 				<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
-					<div class="col-md-4">
-						<h4>Födelsedatum</h4>
-	            		<rzslider rz-slider-model="ageFilter.minValue" 
-	            				rz-slider-high="ageFilter.maxValue" 
-	            				rz-slider-options="ageFilter.options">
-	    				</rzslider>
+					<div class="row">
+						<div class="col-md-4">
+							<h4>Födelsedatum</h4>
+		            		<rzslider rz-slider-model="ageFilter.minValue" 
+		            				rz-slider-high="ageFilter.maxValue" 
+		            				rz-slider-options="ageFilter.options">
+		    				</rzslider>
+	    				</div>
+	    				<div class="col-md-4">
+	    					<h4>Månad</h4>
+		            		<rzslider rz-slider-model="monthFilter.minValue" 
+		            				rz-slider-high="monthFilter.maxValue" 
+		            				rz-slider-options="monthFilter.options">
+		    				</rzslider>
+	    				</div>
+						<div class="col-md-4">
+							<h4>Tid</h4>
+		            		<rzslider rz-slider-model="hourFilter.minValue" 
+		            				rz-slider-high="hourFilter.maxValue" 
+		            				rz-slider-options="hourFilter.options">
+		    				</rzslider>
+	    				</div>
     				</div>
-    				<div class="col-md-4">
-    					<h4>Månad</h4>
-	            		<rzslider rz-slider-model="monthFilter.minValue" 
-	            				rz-slider-high="monthFilter.maxValue" 
-	            				rz-slider-options="monthFilter.options">
-	    				</rzslider>
-    				</div>
-					<div class="col-md-4">
-						<h4>Tid</h4>
-	            		<rzslider rz-slider-model="hourFilter.minValue" 
-	            				rz-slider-high="hourFilter.maxValue" 
-	            				rz-slider-options="hourFilter.options">
-	    				</rzslider>
-    				</div>
-
-					<button class="btn btn-default" ng-click="homemap.toggleHeatmap();">Heatmap</button>
-					<button class="btn btn-default" ng-click="homemap.togglePolyline();">Polyline</button>
+    				<div class="row">
+						<button class="btn btn-default" ng-click="homemap.toggleHeatmap();">Heatmap</button>
+						<button class="btn btn-default" ng-click="homemap.togglePolyline();">Polyline</button>
+					</div>	
 				</div>
 			</div>
 			<div class="row">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Vad visar kartan? </span>
+					<input id="pac-input" class="form-control" type="text" placeholder="Sök på en annan plats">
+				</div>
 				<map zoom="8" center="[0, 0]"></map>
 			</div>
 		</div>

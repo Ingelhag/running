@@ -37,6 +37,5 @@ router.get('/user/:user/activity/:activity/gps/:gps/', function(req, res) {
 // Export
 router.get('/makeXML', exportController.makeXML);
 router.get('/user/:user/activity/:activity/makeKML', exportController.makeKML);
-router.get('/user/:user/activity/:activity/makeXMLXSLT', exportController.makeXMLXSLT);
 
 module.exports = router;
