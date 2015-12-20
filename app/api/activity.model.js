@@ -8,8 +8,8 @@ module.exports = mongoose.model('Activity', {
     user        : {type : mongoose.Schema.Types.ObjectId, ref: 'User' },
     gpsData     : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gps' }],
     date        : {type : Date, default: Date.now},
-    totalTime   : {type : String, default: ""},
-    averageTime : {type : String, default: ""},
-    bestKm      : {type : String, default: ""},
-    distance    : {type : String, default: ""}
+    totalTime   : {type : Number, default: ""},
+    averageTime : {type : Number, default: ""},
+    bestKm      : {type : Number, default: ""},
+    distance    : {type : Number, default: ""}
 });

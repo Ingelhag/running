@@ -8,7 +8,7 @@ module.exports = mongoose.model('User', {
     birthYear       : {type : Number, default: ''},
     gender          : {type : String, default: ''},
     activities      : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }],
-    longestRun      : {type : String, default: ''},
-    bestAvgTime     : {type : String, default: ''},
+    longestRun      : {type : Number, default: ''},
+    bestAvgTime     : {type : Number, default: ''},
     authentication  : {type : String, default: '2'}
 });

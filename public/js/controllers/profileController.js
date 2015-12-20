@@ -5,9 +5,19 @@
         // Decalre variables
         var runPath = null;
         var activity = this;
+        $scope.sortBy = "date"
         activity.activities = [];
         activity.currentActivity = [];
         getActivities();
+
+        this.setSort = function(sortBy) {
+            $scope.sortBy  = sortBy;
+        }
+
+        this.getSort = function() {
+            console.log("return: " + activity.sortBy);
+            return activity.sortBy;
+        }
         
         var setActivity = function(activityId) {
             // Set current activity
