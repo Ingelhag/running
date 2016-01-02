@@ -144,5 +144,7 @@
                 console.log(updatedActivity);
             });
         }
+
+
     });
 })();

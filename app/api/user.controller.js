@@ -59,6 +59,20 @@ exports.update = function(req, res) {
 
 };
 
+exports.updateAuthentication = function(req, res) {
+
+  console.log("Update Authentication");
+
+  req.user.authentication = req.query.authentication;
+
+  console.log(req.query.authentication);
+
+  req.user.save(function(err, user) {
+    if(err){return next(err);}
+    res.json(user);
+  });
+};
+
 exports.paramid = function(req, res, next, id) {
   var query = User.findById(id);
 

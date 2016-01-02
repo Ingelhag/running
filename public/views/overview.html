@@ -34,6 +34,7 @@
 					<th>Förnamn</th>
 					<th>Efternamn</th>
 					<th>Email</th>
+					<th>Behörighet</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -42,6 +43,17 @@
 					<td>{{user.firstname}}</td>
 					<td>{{user.lastname}}</td>
 					<td>{{user.email}}</td>
+					<td> <!--ng-show="$root.user._id != user._id">-->
+						<select ng-model="authenticationSelected" 
+								ng-change="userOverview.changeAuthentication(user, authenticationSelected)"
+								ng-click="$event.stopPropagation()">
+							<option ng-selected="('0' == user.authentication)"
+									ng-Disabled="!($root.user.authentication == 0)">Master</option>
+							<option ng-selected="('1' == user.authentication)">Admin</option>
+							<option ng-selected="('2' == user.authentication)">Medlem</option>
+						</select>
+					</td>
+					<!--<td>{{authenicationTable[user.authentication].name}}</td>-->
 				</tr>
 			</tbody>
 		</table>
