@@ -5,18 +5,26 @@
         // Decalre variables
         var runPath = null;
         var activity = this;
-        $scope.sortBy = "date"
         activity.activities = [];
         activity.currentActivity = [];
+
+        // How to sort the list
+        var descAsc = "-";
+        var sortBy = "date"
+
+        // Run in the begining
         getActivities();
 
-        this.setSort = function(sortBy) {
-            $scope.sortBy  = sortBy;
+        this.setSort = function(sort) {
+            // Set asc of dec
+            if (sortBy == sort) descAsc = (descAsc == "-")?"":"-";
+
+            // Set which attribut the list should be sorted by
+            sortBy  = sort;
         }
 
         this.getSort = function() {
-            console.log("return: " + activity.sortBy);
-            return activity.sortBy;
+            return descAsc+sortBy;
         }
         
         var setActivity = function(activityId) {
@@ -45,7 +53,6 @@
 
         // Get all acitivities
         function getActivities() {
-
             $http({
                 url: 'api/user/'+$rootScope.user._id+'/activity',
                 method: "GET"

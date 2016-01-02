@@ -39,10 +39,10 @@
 						<th ng-click="activity.setSort('totalTime')">Tid</th>
 					</tr>
 				</thead>
-				<tr ng-repeat="act in activity.activities | orderBy:sortBy" ng-click="activity.setActivity(act._id);">
+				<tr ng-repeat="act in activity.activities | orderBy:activity.getSort();" ng-click="activity.setActivity(act._id);">
 					<td>{{act.date | date:"yyyy - MM - dd"}}</td>
-					<td>{{act.distance}}</td>
-					<td>{{act.totalTime}}</td>
+					<td>{{act.distance}}m</td>
+					<td>{{act.totalTime | secondsToDateTime | date:'HH:mm:ss' }}</td>
 				</tr>
 			</table>
 		</div>

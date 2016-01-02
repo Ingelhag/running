@@ -128,7 +128,7 @@
                 var theActivity = activities[i];
 
                 // If not all attributes allready is set
-                if(theActivity.totalTime == "") {
+                if(theActivity.totalTime == 0) {
                     console.log("Update stats");
                     var gpsData = [];
                     // Fetch GPS data
