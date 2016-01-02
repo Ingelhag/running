@@ -40,11 +40,12 @@
 						<th ng-click="activity.setSort('totalTime')">Tid</th>
 					</tr>
 				</thead>
-				<tr ng-repeat="act in activity.activities | orderBy:activity.getSort();"><!-- ng-click="activity.setActivity(act._id);">-->
+				<tr ng-repeat="act in activity.activities | orderBy:activity.getSort();" ng-click="activity.setActivity(act._id);">
 					<td>{{act.date | date:"yyyy - MM - dd"}}</td>
 					<td>
 						<select ng-model="categorySelected" 
-								ng-change="activity.changeCategory(act, categorySelected)">
+								ng-change="activity.changeCategory(act, categorySelected)"
+								ng-click="$event.stopPropagation()">
 								<option ng-selected="('Running' == act.category)">Running</option>
 								<option ng-selected="('Bicycle' == act.category)">Bicycle</option>
 								<option ng-selected="('Walkning' == act.category)">Walkning</option>

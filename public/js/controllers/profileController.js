@@ -130,13 +130,6 @@
             return totalDuration;
         }
 
-        // Select list with categories
-        $scope.categoryList = [
-            { id: 1, name: 'Running' },
-            { id: 2, name: 'Bicycle' },
-            { id: 3, name: 'Walkning' }
-        ];
-
         this.changeCategory = function(activity, newCategory) {
             // Change the category
             activity.category = newCategory;
@@ -144,7 +137,7 @@
 
             // Update the DB
             $http({
-                url: 'api/user/'+$rootScope.user._id+'/activity/'+activity._id+'/update',
+                url: 'api/user/'+$rootScope.user._id+'/activity/'+activity._id+'/update/category',
                 method: "POST",
                 params: activity
             }).success(function(updatedActivity){

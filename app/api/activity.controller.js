@@ -45,20 +45,31 @@ exports.post = function(req, res, next) {
   });
 };
 
-exports.update = function(req, res) {
+exports.updateStatitics = function(req, res) {
 
   console.log("Update activity");
 
-  req.activity.totalTime = req.query.totalTime;
-  req.activity.averageTime = req.query.avgTime;
-  req.activity.distance = req.query.distance;
-  req.activity.category = req.query.category;
+  req.activity.totalTime    = req.query.totalTime;
+  req.activity.averageTime  = req.query.avgTime;
+  req.activity.distance     = req.query.distance;
 
   req.activity.save(function(err, activity) {
     if(err){return next(err);}
     res.json(activity);
   });
 
+};
+
+exports.updateCategory = function(req, res) {
+
+  console.log("Update category");
+
+  req.activity.category     = req.query.category;
+
+  req.activity.save(function(err, activity) {
+    if(err){return next(err);}
+    res.json(activity);
+  });
 };
 
 exports.paramid = function(req, res, next, id) {

@@ -20,7 +20,8 @@ router.param('activity', activityController.paramid);
 router.get('/activity', activityController.getAll);
 router.get('/user/:user/activity', activityController.get);
 router.post('/user/:user/activity', activityController.post);
-router.post('/user/:user/activity/:activity/update', activityController.update);
+router.post('/user/:user/activity/:activity/update/statitics', activityController.updateStatitics);
+router.post('/user/:user/activity/:activity/update/category', activityController.updateCategory);
 router.get('/user/:user/activity/:activity', function(req, res) {
   res.json(req.activity);
 });

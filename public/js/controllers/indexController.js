@@ -144,7 +144,7 @@
 
                         // Save the changes
                         $http({
-                            url: 'api/user/'+$rootScope.user._id+'/activity/'+data[0].activity+'/update',
+                            url: 'api/user/'+$rootScope.user._id+'/activity/'+data[0].activity+'/update/statitics',
                             method: "POST",
                             params: activity
                         }).success(function(updatedActivity){
