@@ -3,19 +3,19 @@
 	<div class="col-sm-6 col-md-4">
 		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
 			<h3>Antal aktiviteter</h3>
-			<h4>{{activity.activities.length}}</h4>
+			<h4>{{countActivites}}</h4>
 		</div>
 	</div>
 	<div class="col-sm-6 col-md-4">
 		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
 			<h3>Total längd</h3>
-			<h4>{{getTotalLength()}} meter</h4>
+			<h4>{{totalLength}} meter</h4>
 		</div>
 	</div>
 	<div class="col-sm-12 col-md-4">
 		<div class="col-md-12" style="background-color: lightgray; text-align:center; border-radius: 9px; margin-bottom:30px;">
 			<h3>Total tid</h3>
-			<h4>{{getTotalDuration() | secondsToDateTime | date:'HH:mm:ss'}}</h4>
+			<h4>{{totalDuration | secondsToDateTime | date:'HH:mm:ss'}}</h4>
 		</div>
 	</div>
 </div>
@@ -27,9 +27,30 @@
 </div>
 <div class="row">
 	<div class="col-md-9">
+
+	   	<div class="col-md-12" style="background-color: lightgray; border-radius: 9px; margin-bottom:10px; margin-top:10px;">
+   	 		<div class="col-md-6">
+				<label>Running:
+					<input type="checkbox" ng-model="filterCategory.running" ng-click="activity.setTotalsBanner()">
+				</label><br/>
+				<label>Bicycle:
+					<input type="checkbox" ng-model="filterCategory.bicycle" ng-click="activity.setTotalsBanner()">
+				</label><br/>
+				<label>Walkning:
+					<input type="checkbox" ng-model="filterCategory.walkning" ng-click="activity.setTotalsBanner()">
+				</label><br/>
+   	 		</div>
+   	 		<div class="col-md-6">
+   	 			Running: {{filterCategory.running}}
+   	 			Bicycle: {{filterCategory.bicycle}}
+   	 			Walkning: {{filterCategory.walkning}}
+   	 		</div>
+   	 	</div>
+
 		<div class="col-md-12">
 	        <map zoom="8" center="[0, 0]"></map>
    	 	</div>
+
    	 	<div class="col-md-12">
 			<table class="table table-hover">
 				<thead>
@@ -40,7 +61,7 @@
 						<th ng-click="activity.setSort('totalTime')">Tid</th>
 					</tr>
 				</thead>
-				<tr ng-repeat="act in activity.activities | orderBy:activity.getSort();" ng-click="activity.setActivity(act._id);">
+				<tr ng-repeat="act in activity.activities | orderBy:activity.getSort() | categoryFilter:filterCategory" ng-click="activity.setActivity(act._id);">
 					<td>{{act.date | date:"yyyy - MM - dd"}}</td>
 					<td>
 						<select ng-model="categorySelected" 

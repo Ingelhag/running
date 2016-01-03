@@ -8,9 +8,21 @@
         activity.activities = [];
         activity.currentActivity = [];
 
+        // Information banner
+        $scope.countActivites = 0;
+        $scope.totalLength = 0;
+        $scope.totalDuration = 0;
+
         // How to sort the list
         var descAsc = "-";
         var sortBy = "date"
+
+        // Set the filterCategories
+        $scope.filterCategory = {
+            running: true,
+            bicycle: true,
+            walkning: true
+        }
 
         // Run in the begining
         getActivities();
@@ -47,6 +59,9 @@
                 // Generate a ployline at the map
                 GenerateMapMarkers(runCoordinates);
                 setCircles();
+
+                // Calculte totals in the banner
+                setTotalsBanner();
             });
         };
         this.setActivity = setActivity;
@@ -58,7 +73,9 @@
                 method: "GET"
             }).success(function(data){
                 activity.activities = data;
-                setActivity(data[0]._id);
+
+                // If there exists some activity
+                if(data.length > 0) setActivity(data[0]._id);
             });
         }
 
@@ -115,20 +132,29 @@
             }
         }
 
-        $scope.getTotalLength = function() {
-            var totalLength = 0;
+        function setTotalsBanner() {
+            $scope.totalLength = 0;
+            $scope.totalDuration = 0;
+            $scope.countActivites = 0;
             for(var i = 0; i < activity.activities.length; i++) {
-                totalLength += parseFloat(activity.activities[i].distance);
+                if(activity.activities[i].category == "Running" && $scope.filterCategory.running) {
+                    $scope.totalLength += parseFloat(activity.activities[i].distance);
+                    $scope.totalDuration += parseFloat(activity.activities[i].totalTime);
+                    $scope.countActivites++;
+                } 
+                if(activity.activities[i].category == "Walkning" && $scope.filterCategory.walkning){ 
+                    $scope.totalLength += parseFloat(activity.activities[i].distance);
+                    $scope.totalDuration += parseFloat(activity.activities[i].totalTime);
+                    $scope.countActivites++;
+                }
+                if(activity.activities[i].category == "Bicycle" && $scope.filterCategory.bicycle) {
+                    $scope.totalLength += parseFloat(activity.activities[i].distance);
+                    $scope.totalDuration += parseFloat(activity.activities[i].totalTime);
+                    $scope.countActivites++;
+                } 
             }
-            return totalLength;
         }
-        $scope.getTotalDuration = function() {
-            var totalDuration = 0;
-            for(var i = 0; i < activity.activities.length; i++) {
-                totalDuration += parseFloat(activity.activities[i].totalTime);
-            }
-            return totalDuration;
-        }
+        this.setTotalsBanner = setTotalsBanner;
 
         this.changeCategory = function(activity, newCategory) {
             // Change the category
@@ -143,8 +169,23 @@
             }).success(function(updatedActivity){
                 console.log(updatedActivity);
             });
+
+            // Update the Information bar
+            setTotalsBanner();
         }
+    });
 
+    app.filter('categoryFilter', function() {
+        return function(activities, filterCategory) {
+        var filtered = [];
 
+        angular.forEach(activities, function(activity) {
+            if(activity.category == "Running" && filterCategory.running) filtered.push(activity);
+            if(activity.category == "Walkning" && filterCategory.walkning) filtered.push(activity);
+            if(activity.category == "Bicycle" && filterCategory.bicycle) filtered.push(activity);
+        });
+
+        return filtered;
+        };
     });
 })();
