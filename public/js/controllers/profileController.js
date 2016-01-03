@@ -14,7 +14,7 @@
         $scope.totalDuration = 0;
 
         // How to sort the list
-        var descAsc = "-";
+        var descAsc = "";
         var sortBy = "date"
 
         // Set the filterCategories
