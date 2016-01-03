@@ -3,3 +3,35 @@ body { padding-top:30px; }
 rzslider .rz-bubble {
 	left:0;
 }
+
+input[type=checkbox] {
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    -webkit-appearance: none;
+}
+input.running[type=checkbox]:checked {
+    background-image: url('running-checked.png');
+}
+input.running[type=checkbox]:not(:checked) {
+    background-image: url('running-checked.png');
+    opacity: 0.3;
+}
+
+input.walking[type=checkbox]:checked {
+    background-image: url('walking-checked.png');
+}
+input.walking[type=checkbox]:not(:checked) {
+    background-image: url('walking-checked.png');
+    opacity: 0.3;
+}
+
+input.bicycle[type=checkbox]:checked {
+    background-image: url('bicycle-checked.png');
+}
+input.bicycle[type=checkbox]:not(:checked) {
+    background-image: url('bicycle-checked.png');
+    opacity: 0.3;
+}
